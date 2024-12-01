@@ -31,7 +31,7 @@
             max-width: 100%;
             max-height: 100%;
             position: absolute;
-            transition: transform 0.8s ease-in-out;
+            transition: transform 1s ease-in-out;
         }
 
         .button-container {
@@ -87,8 +87,8 @@
         const nextButton = document.getElementById("next-button");
 
         function updateImage(direction) {
-            const offset = direction === 'next' ? '-100%' : '100%';
-            const resetOffset = direction === 'next' ? '100%' : '-100%';
+            const offset = direction === 'next' ? '-120%' : '120%';
+            const resetOffset = direction === 'next' ? '120%' : '-120%';
 
             imageElement.style.transform = `translateX(${offset})`;
 
@@ -99,10 +99,10 @@
                 imageElement.src = images[currentIndex];
 
                 setTimeout(() => {
-                    imageElement.style.transition = 'transform 0.8s ease-in-out';
+                    imageElement.style.transition = 'transform 1s ease-in-out';
                     imageElement.style.transform = 'translateX(0)';
                 }, 50);
-            }, 800);
+            }, 1000);
 
             prevButton.disabled = currentIndex === 0;
             nextButton.disabled = currentIndex === images.length - 1;
