@@ -1,0 +1,76 @@
+/* 기본 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #25fc45, #2562fc);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 중앙 컨테이너 */
+.content-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* 제목 스타일 */
+.stage-title {
+    font-size: 4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+/* 내용 보기 버튼 */
+.button-primary {
+    background-color: #ffffff;
+    color: #2575fc;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-primary:hover {
+    background-color: #ffffff;
+    transform: translateY(-3px);
+}
+
+/* Play 버튼 */
+.button-secondary {
+    background-color: #ffffff;
+    color: #2575fc;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-secondary:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-3px);
+}
