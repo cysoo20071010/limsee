@@ -60,7 +60,7 @@
   .title-container::before {
     content: '';
     position: absolute;
-    top: 0; /* 상단부터 시작 */
+    top: -50%; /* 상단부터 시작 */
     left: 50%; /* 가로 중앙 정렬 기준 */
     transform: translateX(-50%); /* 가운데 정렬 */
     width: 1000%; /* 부모 요소에 맞게 설정 */
