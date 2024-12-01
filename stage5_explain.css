@@ -1,4 +1,4 @@
-/* 기본 설정 */
+
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +15,7 @@ body {
     height: 100vh;
 }
 
-/* 중앙 컨테이너 */
+
 .content-container {
     text-align: center;
     display: flex;
@@ -24,7 +24,7 @@ body {
     gap: 30px;
 }
 
-/* 제목 스타일 */
+
 .stage-title {
     font-size: 4rem;
     font-weight: bold;
@@ -33,13 +33,11 @@ body {
     margin-bottom: 20px;
 }
 
-/* 버튼 컨테이너 */
 .button-container {
     display: flex;
     gap: 20px;
 }
 
-/* 버튼 스타일 */
 button {
     padding: 15px 30px;
     font-size: 1.5rem;
@@ -49,7 +47,6 @@ button {
     transition: transform 0.2s, background-color 0.3s;
 }
 
-/* 내용 보기 버튼 */
 .button-primary {
     background-color: #ffffff;
     color: #2575fc;
@@ -62,7 +59,6 @@ button {
     transform: translateY(-3px);
 }
 
-/* Play 버튼 */
 .button-secondary {
     background-color: #ffffff;
     color: #2575fc;
