@@ -53,11 +53,6 @@
         button:hover {
             background-color: #0056b3;
         }
-
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 <body>
@@ -103,9 +98,6 @@
                     imageElement.style.transform = 'translateX(0)';
                 }, 50);
             }, 1000);
-
-            prevButton.disabled = currentIndex === 0;
-            nextButton.disabled = currentIndex === images.length - 1;
         }
 
         prevButton.addEventListener("click", () => {
@@ -119,9 +111,6 @@
                 updateImage('next');
             }
         });
-
-        prevButton.disabled = currentIndex === 0;
-        nextButton.disabled = currentIndex === images.length - 1;
     </script>
 </body>
 </html>
