@@ -51,7 +51,7 @@
   
   .title-container {
     display: inline-block;
-    padding: 20px;
+    padding: 10px 20px;
     background-color: #8cff83; /* 네모난 박스의 배경색 */
     border-radius: 8px; /* 모서리를 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
