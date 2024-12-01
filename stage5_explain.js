@@ -1,7 +1,7 @@
 function handleButton1Click() {
-    alert("내용 보기 버튼 클릭됨!");
+    location.href = `mainframe_explain.html`;
 }
 
 function handleButton2Click() {
-    alert("Play 버튼 클릭됨!");
+    location.href = `CM/P_explain.html`;
 }
