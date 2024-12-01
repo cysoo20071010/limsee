@@ -13,7 +13,7 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #fdff95;
         }
 
         .image-container {
@@ -120,7 +120,7 @@
             }
         });
 
-        prevButton.disabled = currentIndex === 0;
+        prevButton.disabled = currentIndex === -1;
         nextButton.disabled = currentIndex === images.length - 1;
     </script>
 </body>
