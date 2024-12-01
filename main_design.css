@@ -48,29 +48,29 @@
     margin-top: 20px;
   }
   
+  
   .title-container {
-    position: relative;
-    display: flex; /* 컨테이너 내부에서 유연한 정렬을 가능하게 함 */
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: flex-start; /* 세로 위쪽 정렬 */
-    width: 100%; /* 부모 요소에 맞게 확장 */
-    height: 150px; /* 필요한 높이로 설정 */
+    display: inline-block;
+    padding: 20px;
+    background-color: #8cff83; /* 네모난 박스의 배경색 */
+    border-radius: 8px; /* 모서리를 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    text-align: center; /* 텍스트를 중앙 정렬 */
+    margin-bottom: 10px; /* 제목과 아래 텍스트 간의 간격 */
   }
   
-  .title-container::before {
-    content: '';
-    position: absolute;
-    top: -50%; /* 상단부터 시작 */
-    left: 50%; /* 가로 중앙 정렬 기준 */
-    transform: translateX(-50%); /* 가운데 정렬 */
-    width: 1000%; /* 부모 요소에 맞게 설정 */
-    height: 1000%; /* 부모 요소에 맞게 설정 */
-    background-image: url('title_background.png');
-    background-size: contain; /* 비율 유지하며 내부에 맞춤 */
-    background-repeat: no-repeat;
-    background-position: center top; /* 가로는 가운데, 세로는 위쪽 정렬 */
-    z-index: -1;
+  .title-container .titletext {
+    margin: 0;
+    font-size: 2rem;
+    color: #ffffff; /* 제목 텍스트 색상 */
   }
+  
+  .subtext {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #ffffff; /* 보조 텍스트 색상 */
+  }
+  
   
   .highlight-text {
     color: #FFFFFF;
