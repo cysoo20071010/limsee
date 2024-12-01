@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 3 Quiz</title>
+    <link rel="stylesheet" href="stage3_design.css">
+    <script defer src="stage3_action.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class="quiz-title">STAGE 3 QUIZ</h1>
+    </header>
+    <main>
+        <section class="quiz-section">
+            <!-- 문제 1: OX 퀴즈 -->
+            <div class="question-container">
+                <p class="question-text">문제 번호: 1</p>
+                <p class="quiz-question">Apple DOS 3.3은 디스크 저장 공간의 효율성을 크게 개선한 버전이다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 2: OX 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 2</p>
+                <p class="quiz-question">MS-DOS 1.0은 IBM의 PC용으로 개발되기 전에 "QDOS"로 불렸다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 3: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 3</p>
+                <p class="quiz-question">Apple DOS 3.2의 주요 개선 사항은 무엇인가요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">디스크 저장 공간 효율성</button>
+                    <button class="answer-btn">애플 II 플러스와의 호환성 개선</button>
+                    <button class="answer-btn">네트워크 기능 추가</button>
+                    <button class="answer-btn">하드 디스크 지원</button>
+                </div>
+            </div>
+    
+            <!-- 문제 4: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 4</p>
+                <p class="quiz-question">MS-DOS 2.0에서 추가된 기능이 아닌 것은 무엇인가요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">디렉토리 트리 구조</button>
+                    <button class="answer-btn">하드 디스크 지원</button>
+                    <button class="answer-btn">네트워크 기능</button>
+                    <button class="answer-btn">명령줄 인터페이스 개선</button>
+                </div>
+            </div>
+        </section>
+        <button id="completeQuizBtn" onclick="location.href='stage3_start.html'">퀴즈 포기하기</button>
+    </main>    
+</body>
+</html>

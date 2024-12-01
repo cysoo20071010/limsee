@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 5 Quiz</title>
+    <link rel="stylesheet" href="stage5_design.css">
+    <script defer src="stage5_action.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class="quiz-title">STAGE 5 QUIZ</h1>
+    </header>
+    <main>
+        <section class="quiz-section">
+            <!-- 문제 1: OX 퀴즈 -->
+            <div class="question-container">
+                <p class="question-text">문제 번호: 1</p>
+                <p class="quiz-question">안드로이드 프로젝트는 2003년에 앤디 루빈에 의해 모바일 운영체제로 시작되었다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 2: OX 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 2</p>
+                <p class="quiz-question">켄 톰슨은 유닉스를 개발하면서 C 언어를 만들었다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 3: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 3</p>
+                <p class="quiz-question">안드로이드 5.0 (Lollipop)에서 도입된 주요 기능은 무엇인가요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">다크 모드</button>
+                    <button class="answer-btn">머티리얼 디자인(Material Design)</button>
+                    <button class="answer-btn">제스처 네비게이션</button>
+                    <button class="answer-btn">태블릿 통합 인터페이스</button>
+                </div>
+            </div>
+    
+            <!-- 문제 4: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 4</p>
+                <p class="quiz-question">다음 중 C 언어를 개발한 사람은 누구인가요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">스티브 잡스</button>
+                    <button class="answer-btn">빌 게이츠</button>
+                    <button class="answer-btn">데니스 리치</button>
+                    <button class="answer-btn">리누스 토르발즈</button>
+                </div>
+            </div>
+        </section>
+        <button id="completeQuizBtn" onclick="location.href='stage5_start.html'">퀴즈 포기하기</button>
+    </main>    
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 4 Quiz</title>
+    <link rel="stylesheet" href="stage4_design.css">
+    <script defer src="stage4_action.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class="quiz-title">STAGE 4 QUIZ</h1>
+    </header>
+    <main>
+        <section class="quiz-section">
+            <!-- 문제 1: OX 퀴즈 -->
+            <div class="question-container">
+                <p class="question-text">문제 번호: 1</p>
+                <p class="quiz-question">Mac OS X는 2001년에 유닉스 기반으로 출시되었다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 2: OX 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 2</p>
+                <p class="quiz-question">Windows 95는 시작 버튼과 작업 표시줄을 도입한 첫 윈도우 운영체제이다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 3: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 3</p>
+                <p class="quiz-question">macOS Big Sur는 어떤 중요한 전환점을 발표했나요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">애플 실리콘 칩 전환</button>
+                    <button class="answer-btn">코코아(Cocoa) 프레임워크 도입</button>
+                    <button class="answer-btn">MS-DOS와의 통합</button>
+                    <button class="answer-btn">유닉스 기반으로의 전환</button>
+                </div>
+            </div>
+    
+            <!-- 문제 4: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 4</p>
+                <p class="quiz-question">MS-DOS 2.0에서 추가된 기능이 아닌 것은 무엇인가요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">시작 메뉴와 작업 표시줄</button>
+                    <button class="answer-btn">그래픽 기반 인터페이스 도입</button>
+                    <button class="answer-btn">지속적인 업데이트 모델</button>
+                    <button class="answer-btn">안정성과 사용 편의성</button>
+                </div>
+            </div>
+        </section>
+        <button id="completeQuizBtn" onclick="location.href='stage4_start.html'">퀴즈 포기하기</button>
+    </main>    
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 2 Quiz</title>
+    <link rel="stylesheet" href="stage2_design.css">
+    <script defer src="stage2_action.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class="quiz-title">STAGE 2 QUIZ</h1>
+    </header>
+    <main>
+        <section class="quiz-section">
+            <!-- 문제 1: OX 퀴즈 -->
+            <div class="question-container">
+                <p class="question-text">문제 번호: 1</p>
+                <p class="quiz-question">유닉스 커널은 최초 개발 당시부터 C 언어로 작성되었다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 2: OX 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 2</p>
+                <p class="quiz-question">리눅스 커널은 리누스 토발즈에 의해 개발이 시작되었다.</p>
+                <div class="answers-container ox-answers">
+                    <button class="answer-btn">O</button>
+                    <button class="answer-btn">X</button>
+                </div>
+            </div>
+    
+            <!-- 문제 3: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 3</p>
+                <p class="quiz-question">1984년, BSD 유닉스는 어떤 기능을 추가하여 인터넷 통합에 중요한 역할을 했나요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">GUI 환경</button>
+                    <button class="answer-btn">멀티태스킹</button>
+                    <button class="answer-btn">파일 시스템</button>
+                    <button class="answer-btn">TCP/IP 프로토콜</button>
+                </div>
+            </div>
+    
+            <!-- 문제 4: 4지선다형 퀴즈 -->
+            <div class="question-container hidden">
+                <p class="question-text">문제 번호: 4</p>
+                <p class="quiz-question">우분투(Ubuntu)는 어떤 리눅스 배포판 계열에서 파생되었나요?</p>
+                <div class="answers-container multiple-choice-answers">
+                    <button class="answer-btn">레드햇 계열</button>
+                    <button class="answer-btn">슬랙웨어 계열</button>
+                    <button class="answer-btn">데비안 계열</button>
+                    <button class="answer-btn">아치 리눅스 계열</button>
+                </div>
+            </div>
+        </section>
+        <button id="completeQuizBtn" onclick="location.href='stage2_start.html'">퀴즈 포기하기</button>
+    </main>    
+</body>
+</html>

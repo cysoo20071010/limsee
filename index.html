@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OS History Timeline</title>
+  <link rel="stylesheet" href="main_design.css">
+</head>
+<body>
+  <header>
+    <div class="title-container">
+      <h1 class="highlight-text titletext">운영체제의 역사</h1>
+    </div>
+    <p class="highlight-text subtext">탐험하듯 운영체제의 역사를 공부해보자!</p>
+  </header>
+
+  <main>
+    <section class="timeline">
+      <div class="stage">
+        <h2>[Stage 1] 메인프레임 운영체제, CP/M</h2>
+        <div class="button-container">
+          <button onclick="goToExplanationPage(1)">내용 보기</button>
+          <button onclick="goToQuizPage(1)">Play</button>
+        </div>
+      </div>
+      <div class="stage">
+        <h2>[Stage 2] Unix, Linux</h2>
+        <div class="button-container">
+          <button onclick="goToExplanationPage(2)">내용 보기</button>
+          <button onclick="goToQuizPage(2)">Play</button>
+        </div>
+      </div>
+      <div class="stage">
+        <h2>[Stage 3] Apple Dos, MS Dos</h2>
+        <div class="button-container">
+          <button onclick="goToExplanationPage(3)">내용 보기</button>
+          <button onclick="goToQuizPage(3)">Play</button>
+        </div>
+      </div>
+      <div class="stage">
+        <h2>[Stage 4] MAC OS, Windows</h2>
+        <div class="button-container">
+          <button onclick="goToExplanationPage(4)">내용 보기</button>
+          <button onclick="goToQuizPage(4)">Play</button>
+        </div>
+      </div>
+      <div class="stage">
+        <h2>[Stage 5] Android 와 운영체제 관련 인물</h2>
+        <div class="button-container">
+          <button onclick="goToExplanationPage(5)">내용 보기</button>
+          <button onclick="goToQuizPage(5)">Play</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="main_action.js"></script>
+</body>
+</html>
