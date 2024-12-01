@@ -50,21 +50,25 @@
   
   .title-container {
     position: relative;
-    width: 100%;
-    height: 50vh;
+    display: flex; /* 컨테이너 내부에서 유연한 정렬을 가능하게 함 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: flex-start; /* 세로 위쪽 정렬 */
+    width: 100%; /* 부모 요소에 맞게 확장 */
+    height: 150px; /* 필요한 높이로 설정 */
   }
-  
   
   .title-container::before {
     content: '';
     position: absolute;
-    top: 0%;
-    width: 100%;
-    height: 100%;
+    top: 0; /* 상단부터 시작 */
+    left: 50%; /* 가로 중앙 정렬 기준 */
+    transform: translateX(-50%); /* 가운데 정렬 */
+    width: 100%; /* 부모 요소에 맞게 설정 */
+    height: 100%; /* 부모 요소에 맞게 설정 */
     background-image: url('title_background.png');
-    background-size: contain;
+    background-size: contain; /* 비율 유지하며 내부에 맞춤 */
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: center top; /* 가로는 가운데, 세로는 위쪽 정렬 */
     z-index: -1;
   }
   
