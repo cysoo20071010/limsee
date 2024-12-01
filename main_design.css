@@ -56,10 +56,9 @@
   .title-container::before {
     content: '';
     position: absolute;
-    top: -50%;
-    transform: translateX(-29.5%);
-    width: 400%;
-    height: 400%;
+    top: 0%;
+    width: 800%;
+    height: 800%;
     background-image: url('title_background.png');
     background-size: contain;
     background-repeat: no-repeat;
