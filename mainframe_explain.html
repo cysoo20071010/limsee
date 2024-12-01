@@ -104,12 +104,12 @@
                 }, 50);
             }, 1000);
 
-            prevButton.disabled = currentIndex === 0;
+            prevButton.disabled = currentIndex === -1;
             nextButton.disabled = currentIndex === images.length - 1;
         }
 
         prevButton.addEventListener("click", () => {
-            if (currentIndex > 0) {
+            if (currentIndex > -1) {
                 updateImage('prev');
             }
         });
