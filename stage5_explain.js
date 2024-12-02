@@ -3,5 +3,5 @@ function handleButton1Click() {
 }
 
 function handleButton2Click() {
-    location.href = `OS_People_explain.html`;
+    window.location.href = "https://informaticshistorysasa.com/character_cards.html";
 }
