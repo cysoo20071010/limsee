@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #b4fee3;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 95%;
+            height: 90%;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            transition: transform 1s ease-in-out;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img id="slider-image" src="Apple_Dos_001.png" alt="Image Slider">
+    </div>
+    <div class="button-container">
+        <button id="prev-button">Previous</button>
+        <button id="next-button">Next</button>
+    </div>
+
+    <script>
+        const images = [
+            "Apple_Dos_001.png",
+            "Apple_Dos_002.png",
+            "Apple_Dos_003.png",
+            "Apple_Dos_004.png",
+            "Apple_Dos_005.png",
+            "Apple_Dos_006.png",
+            "Apple_Dos_007.png",
+            "Apple_Dos_008.png"
+        ];
+
+        let currentIndex = 0;
+        const imageElement = document.getElementById("slider-image");
+        const prevButton = document.getElementById("prev-button");
+        const nextButton = document.getElementById("next-button");
+
+        function updateImage(direction) {
+            const offset = direction === 'next' ? '-110%' : '110%';
+            const resetOffset = direction === 'next' ? '110%' : '-110%';
+
+            imageElement.style.transform = `translateX(${offset})`;
+
+            setTimeout(() => {
+                imageElement.style.transition = 'none';
+                imageElement.style.transform = `translateX(${resetOffset})`;
+                currentIndex += direction === 'next' ? 1 : -1;
+                imageElement.src = images[currentIndex];
+
+                setTimeout(() => {
+                    imageElement.style.transition = 'transform 1s ease-in-out';
+                    imageElement.style.transform = 'translateX(0)';
+                }, 50);
+            }, 1000);
+        }
+
+        prevButton.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                updateImage('prev');
+            }
+        });
+
+        nextButton.addEventListener("click", () => {
+            if (currentIndex < images.length - 1) {
+                updateImage('next');
+            }
+        });
+    </script>
+</body>
+</html>
