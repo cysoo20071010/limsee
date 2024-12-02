@@ -1,7 +1,7 @@
 function handleButton1Click() {
-    location.href = `mainframe_explain.html`;
+    location.href = `Android_explain.html`;
 }
 
 function handleButton2Click() {
-    location.href = `CM/P_explain.html`;
+    location.href = `OS_People_explain.html`;
 }
