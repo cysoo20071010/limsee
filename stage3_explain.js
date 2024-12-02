@@ -1,7 +1,7 @@
 function handleButton1Click() {
-    alert("내용 보기 버튼 클릭됨!");
+    location.href = `Apple_Dos_explain.html`;
 }
 
 function handleButton2Click() {
-    alert("Play 버튼 클릭됨!");
+    location.href = `MS_Dos_explain.html`;
 }
