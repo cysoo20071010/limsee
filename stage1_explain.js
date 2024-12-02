@@ -3,5 +3,5 @@ function handleButton1Click() {
 }
 
 function handleButton2Click() {
-    location.href = `CM/P_explain.html`;
+    location.href = `CMP_explain.html`;
 }
