@@ -1,4 +1,4 @@
-const appleOrder = ["Apple II", "최초의 디스크 기반 운영체제 지원", "디스크 드라이브", "간단한 명령어 인터페이스", "최적화된 디스크 관리", "간결환 명령어", "독창적인 파일 시스템"];
+const appleOrder = ["Apple II", "최초의 디스크 기반 운영체제 지원", "디스크 드라이브", "간단한 명령어 인터페이스", "최적화된 디스크 관리", "간결한 명령어", "독창적인 파일 시스템"];
 const msOrder = ["IBM PC와 함께 출시", "PC 산업 표준으로 자리잡은 운영체제", "CP/M 압도", "간결하고 효율적인 구조", "제한된 하드웨어에서 잘 돌아감", "폭넓은 소프트웨어 호환성", "점차 윈도우와 통합"];
 let draggedFile = null;
 
@@ -55,11 +55,12 @@ function checkWinCondition() {
     const msZone = Array.from(document.getElementById("msZone").children)
         .map(el => el.textContent);
 
-    const appleCorrect = appleZone.join(",") === appleOrder.join(",");
-    const msCorrect = msZone.join(",") === msOrder.join(",");
+    const appleCorrect = appleOrder.every(file => appleZone.includes(file)) && appleZone.length === appleOrder.length;
+    const msCorrect = msOrder.every(file => msZone.includes(file)) && msZone.length === msOrder.length;
 
     if (appleCorrect && msCorrect) {
         document.getElementById("result").style.display = "block";
         document.getElementById("result").textContent = "Congratulations! Files are correctly recovered!";
     }
 }
+
