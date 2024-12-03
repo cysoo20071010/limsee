@@ -52,7 +52,6 @@
         };
 
         let gameKeyword;
-        let aiHints;
         let liar;
 
         document.getElementById("startGame").addEventListener("click", () => {
@@ -62,7 +61,7 @@
 
             // 플레이어 화면에 주제 표시
             document.getElementById("keywordDisplay").innerText = gameKeyword;
-            
+
             // 힌트 섹션 설정
             const correctHint = hints[gameKeyword][Math.floor(Math.random() * 5)];
             const incorrectHints = Object.keys(hints)
@@ -99,13 +98,15 @@
                 return;
             }
 
-            // AI 힌트 생성
-            aiHints = hints[gameKeyword].sort(() => Math.random() - 0.5).slice(0, 4);
+            // AI 힌트 생성 (라이어가 다른 키워드의 힌트를 말하도록 설정)
             const aiHintList = document.getElementById("aiHintList");
             aiHintList.innerHTML = "";
-            aiHints.forEach(hint => {
+            players.slice(1).forEach((ai, index) => {
+                const hint = index === roles.indexOf("Liar") - 1 
+                    ? hints[Object.keys(hints).filter(k => k !== gameKeyword)[Math.floor(Math.random() * (Object.keys(hints).length - 1))]][0]
+                    : hints[gameKeyword][Math.floor(Math.random() * 5)];
                 const li = document.createElement("li");
-                li.innerText = hint;
+                li.innerText = `${ai}: ${hint}`;
                 aiHintList.appendChild(li);
             });
 
