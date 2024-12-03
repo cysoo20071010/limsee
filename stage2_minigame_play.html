@@ -126,7 +126,7 @@
         function showResult(elapsedTime) {
             gameBoard.style.display = "none";
             if (elapsedTime <= 100) {
-                resultElement.innerHTML = `<p>축하합니다! 성공하셨습니다! 걸린 시간: ${elapsedTime}초</p><button onclick="location.reload()">돌아가기</button>`;
+                resultElement.innerHTML = `<p>축하합니다! 성공하셨습니다! 걸린 시간: ${elapsedTime}초</p><button onclick="location.href = "index.html"">돌아가기</button>`;
             } else {
                 resultElement.innerHTML = `<p>시간 초과! 실패하셨습니다! 걸린 시간: ${elapsedTime}초</p><button onclick="location.reload()">다시하기</button>`;
             }
