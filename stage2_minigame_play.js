@@ -9,69 +9,112 @@ const config = {
             debug: false
         }
     },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
+    scene: [MenuScene, GameScene] // 메인 메뉴와 게임 장면 포함
 };
 
 const game = new Phaser.Game(config);
-let player;
-let cursors;
-let enemies;
-let score = 0;
-let scoreText;
 
-function preload() {
-    this.load.image('background', 'assets/background.png');
-    this.load.image('player', 'assets/player.png');
-    this.load.image('enemy', 'assets/enemy.png');
-}
-
-function create() {
-    this.add.image(400, 300, 'background');
-
-    player = this.physics.add.sprite(400, 500, 'player');
-    player.setCollideWorldBounds(true);
-
-    cursors = this.input.keyboard.createCursorKeys();
-
-    enemies = this.physics.add.group({
-        key: 'enemy',
-        repeat: 5,
-        setXY: { x: 100, y: 100, stepX: 120 }
-    });
-
-    enemies.children.iterate(function (enemy) {
-        enemy.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        enemy.setCollideWorldBounds(true);
-        enemy.setBounce(1);
-    });
-
-    this.physics.add.collider(player, enemies, hitEnemy, null, this);
-
-    scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
-}
-
-function update() {
-    player.setVelocity(0);
-
-    if (cursors.left.isDown) {
-        player.setVelocityX(-300);
-    } else if (cursors.right.isDown) {
-        player.setVelocityX(300);
+class MenuScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MenuScene' });
     }
 
-    if (cursors.up.isDown) {
-        player.setVelocityY(-300);
-    } else if (cursors.down.isDown) {
-        player.setVelocityY(300);
+    preload() {
+        this.load.image('menuBg', 'menu_background.png');
+        this.load.image('unix', 'assets/unix.png');
+        this.load.image('linux', 'assets/linux.png');
+    }
+
+    create() {
+        this.add.image(400, 300, 'menuBg');
+        this.add.text(300, 100, 'Choose Your OS', { fontSize: '32px', fill: '#FFF' });
+
+        const unixButton = this.add.image(300, 300, 'unix').setInteractive();
+        const linuxButton = this.add.image(500, 300, 'linux').setInteractive();
+
+        unixButton.on('pointerdown', () => {
+            this.startGame('Unix');
+        });
+        linuxButton.on('pointerdown', () => {
+            this.startGame('Linux');
+        });
+    }
+
+    startGame(os) {
+        this.scene.start('GameScene', { os: os });
     }
 }
 
-function hitEnemy(player, enemy) {
-    enemy.disableBody(true, true);
-    score += 10;
-    scoreText.setText('Score: ' + score);
+class GameScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'GameScene' });
+    }
+
+    init(data) {
+        this.selectedOS = data.os; // Unix 또는 Linux 정보 전달받음
+    }
+
+    preload() {
+        this.load.image('background', 'assets/background.png');
+        this.load.image('player', 'assets/player.png');
+        this.load.image('enemy', 'assets/enemy.png');
+    }
+
+    create() {
+        this.add.image(400, 300, 'background');
+        this.player = this.physics.add.sprite(400, 500, 'player');
+        this.player.setCollideWorldBounds(true);
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.enemies = this.physics.add.group({
+            key: 'enemy',
+            repeat: 5,
+            setXY: { x: 100, y: 100, stepX: 120 }
+        });
+
+        this.enemies.children.iterate((enemy) => {
+            enemy.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            enemy.setCollideWorldBounds(true);
+            enemy.setBounce(1);
+        });
+
+        this.physics.add.collider(this.player, this.enemies, this.hitEnemy, null, this);
+
+        this.score = 0;
+        this.scoreText = this.add.text(16, 16, `Score: 0`, { fontSize: '32px', fill: '#FFF' });
+
+        this.osAbilities();
+    }
+
+    update() {
+        this.player.setVelocity(0);
+
+        if (this.cursors.left.isDown) {
+            this.player.setVelocityX(-300);
+        } else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(300);
+        }
+
+        if (this.cursors.up.isDown) {
+            this.player.setVelocityY(-300);
+        } else if (this.cursors.down.isDown) {
+            this.player.setVelocityY(300);
+        }
+    }
+
+    hitEnemy(player, enemy) {
+        enemy.disableBody(true, true);
+        this.score += 10;
+        this.scoreText.setText(`Score: ${this.score}`);
+    }
+
+    osAbilities() {
+        if (this.selectedOS === 'Unix') {
+            this.player.setScale(1.5); // Unix: 크고 튼튼
+        } else if (this.selectedOS === 'Linux') {
+            this.player.setScale(0.8); // Linux: 작지만 빠름
+            this.player.setVelocity(400);
+        }
+    }
 }
