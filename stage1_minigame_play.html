@@ -141,16 +141,24 @@
             document.getElementById("game").style.display = "none";
             document.getElementById("result").style.display = "block";
 
+            const resultText = document.getElementById("resultText");
+            const gotomainButton = document.getElementById("gotomain");
+
             if (votedPlayer === liar) {
-                document.getElementById("resultText").innerText = "라이어를 성공적으로 찾아냈습니다! 시민 승리!";
+                resultText.innerText = "라이어를 성공적으로 찾아냈습니다! 시민 승리!";
+                gotomainButton.innerText = "돌아가기";
+                gotomainButton.onclick = () => {
+                    location.href = "index.html"; // 승리 시 이동할 사이트 주소
+                };
             } else {
-                document.getElementById("resultText").innerText = "라이어를 찾지 못했습니다. 라이어 승리!";
+                resultText.innerText = "라이어를 찾지 못했습니다. 라이어 승리!";
+                gotomainButton.innerText = "다시하기";
+                gotomainButton.onclick = () => {
+                    location.href = "stage1_minigame_play.html"; // 메인 화면으로 이동
+                };
             }
         });
 
-        document.getElementById("gotomain").addEventListener("click", () => {
-            location.href = `index.html`;
-        });
     </script>
 </body>
 </html>
