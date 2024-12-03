@@ -94,7 +94,7 @@
             if (!hints[gameKeyword].includes(selectedHint)) {
                 document.getElementById("game").style.display = "none";
                 document.getElementById("result").style.display = "block";
-                document.getElementById("resultText").innerText = "잘못된 힌트를 선택했습니다. 라이어 승리!";
+                document.getElementById("resultText").innerText = "잘못된 힌트를 선택했습니다. 당신은 라이어로 지목되어 탈락했습니다. 실패!";
 
                 const gotomainButton = document.getElementById("gotomain");
                 gotomainButton.innerText = "다시하기";
