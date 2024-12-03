@@ -2,153 +2,82 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    backgroundColor: '#222',
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            debug: false
-        }
+      default: 'arcade',
+      arcade: {
+        debug: false,
+      },
     },
-    scene: [MenuScene, GameScene]
-};
-
-const game = new Phaser.Game(config);
-
-class MenuScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'MenuScene' });
+    scene: {
+      preload,
+      create,
+      update,
+    },
+  };
+  
+  const game = new Phaser.Game(config);
+  
+  let player;
+  let cursors;
+  let bullets;
+  let enemies;
+  let lastFired = 0;
+  
+  function preload() {
+    // No assets to preload since we are using simple shapes
+  }
+  
+  function create() {
+    // Create player as a rectangle
+    player = this.add.rectangle(400, 550, 50, 20, 0x00ff00);
+    this.physics.add.existing(player);
+    player.body.setCollideWorldBounds(true);
+  
+    // Group for bullets
+    bullets = this.physics.add.group();
+  
+    // Create enemies as rectangles
+    enemies = this.physics.add.group();
+    for (let i = 0; i < 10; i++) {
+      let enemy = this.add.rectangle(100 + i * 60, 100, 40, 20, 0xff0000);
+      this.physics.add.existing(enemy);
+      enemies.add(enemy);
     }
-
-    preload() {
-        this.load.image('menuBg', 'menu_background.png');
-        this.load.image('unix', 'Unix.png');
-        this.load.image('linux', 'Linux.png');
+  
+    // Add keyboard input
+    cursors = this.input.keyboard.createCursorKeys();
+  
+    // Collision detection between bullets and enemies
+    this.physics.add.overlap(bullets, enemies, (bullet, enemy) => {
+      bullet.destroy();
+      enemy.destroy();
+    });
+  }
+  
+  function update(time) {
+    // Player movement
+    if (cursors.left.isDown) {
+      player.body.setVelocityX(-300);
+    } else if (cursors.right.isDown) {
+      player.body.setVelocityX(300);
+    } else {
+      player.body.setVelocityX(0);
     }
-
-    create() {
-        this.add.image(400, 300, 'menuBg');
-        this.add.text(300, 100, 'Choose Your OS', { fontSize: '32px', fill: '#FFF' });
-
-        const unixButton = this.add.image(300, 300, 'unix').setInteractive().setScale(0.5);
-        const linuxButton = this.add.image(500, 300, 'linux').setInteractive().setScale(0.5);
-
-        unixButton.on('pointerdown', () => {
-            this.startGame('Unix');
-        });
-        linuxButton.on('pointerdown', () => {
-            this.startGame('Linux');
-        });
+  
+    // Shooting bullets
+    if (cursors.space.isDown && time > lastFired) {
+      const bullet = this.add.rectangle(player.x, player.y - 20, 5, 10, 0xffff00);
+      this.physics.add.existing(bullet);
+      bullet.body.setVelocityY(-400);
+      bullets.add(bullet);
+  
+      lastFired = time + 300; // Fire rate
     }
-
-    startGame(os) {
-        this.scene.start('GameScene', { os: os });
-    }
-}
-
-class GameScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'GameScene' });
-    }
-
-    init(data) {
-        this.selectedOS = data.os;
-    }
-
-    preload() {
-        this.load.image('background', 'stage2_minigame_background.png');
-        this.load.image('player', 'Player.png');
-        this.load.image('enemy', 'Enemy.png');
-        this.load.image('bullet', 'bullet.png');
-    }
-
-    create() {
-        this.add.image(400, 300, 'background');
-
-        // 플레이어 설정
-        this.player = this.physics.add.sprite(400, 500, 'player').setScale(0.5);
-        this.player.setCollideWorldBounds(true);
-
-        // 적 그룹 생성
-        this.enemies = this.physics.add.group();
-
-        // 총알 그룹 생성
-        this.bullets = this.physics.add.group();
-
-        // 키 입력 설정
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-        // UI 설정
-        this.health = 3; // 플레이어 체력
-        this.score = 0; // 점수
-        this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '20px', fill: '#FFF' });
-        this.healthText = this.add.text(16, 40, 'Health: 3', { fontSize: '20px', fill: '#FFF' });
-
-        // 적 생성 타이머
-        this.time.addEvent({
-            delay: 1000,
-            callback: this.spawnEnemy,
-            callbackScope: this,
-            loop: true
-        });
-
-        // 충돌 설정
-        this.physics.add.collider(this.bullets, this.enemies, this.hitEnemy, null, this);
-        this.physics.add.collider(this.player, this.enemies, this.hitPlayer, null, this);
-    }
-
-    update() {
-        // 플레이어 이동
-        this.player.setVelocity(0);
-        if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-200);
-        } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(200);
-        }
-        if (this.cursors.up.isDown) {
-            this.player.setVelocityY(-200);
-        } else if (this.cursors.down.isDown) {
-            this.player.setVelocityY(200);
-        }
-
-        // 총알 발사
-        if (Phaser.Input.Keyboard.JustDown(this.spaceBar)) {
-            this.shootBullet();
-        }
-    }
-
-    spawnEnemy() {
-        const x = Phaser.Math.Between(50, 750);
-        const y = Phaser.Math.Between(50, 100);
-        const enemy = this.enemies.create(x, y, 'enemy').setScale(0.5);
-        enemy.setVelocity(Phaser.Math.Between(-100, 100), 100);
-        enemy.setCollideWorldBounds(true);
-        enemy.setBounce(1);
-    }
-
-    shootBullet() {
-        const bullet = this.bullets.create(this.player.x, this.player.y, 'bullet').setScale(0.3);
-        bullet.setVelocityY(-300);
-        bullet.setCollideWorldBounds(true);
-        bullet.on('worldbounds', () => {
-            bullet.destroy();
-        });
-    }
-
-    hitEnemy(bullet, enemy) {
-        bullet.destroy();
-        enemy.destroy();
-        this.score += 10;
-        this.scoreText.setText('Score: ' + this.score);
-    }
-
-    hitPlayer(player, enemy) {
-        enemy.destroy();
-        this.health -= 1;
-        this.healthText.setText('Health: ' + this.health);
-
-        if (this.health <= 0) {
-            this.scene.start('MenuScene');
-        }
-    }
-}
+  
+    // Enemy movement (simple oscillation)
+    enemies.children.iterate((enemy) => {
+      enemy.x += Math.sin(time / 500) * 2; // Oscillating movement
+    });
+  }
+  
