@@ -8,8 +8,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Apple DOS vs MS-DOS</h1>
-        <p>각 운영체제에 올바른 키워드를 배치하세요!</p>
+        <h1 class="title">Apple DOS vs MS-DOS</h1>
+        <p class="instructions">각 운영체제에 올바른 키워드를 드래그 앤 드롭하여 배치하세요!</p>
         <div class="game-area">
             <div class="dos-container" id="appleDos">
                 <h2>Apple DOS</h2>
@@ -21,9 +21,9 @@
             </div>
         </div>
         <div class="file-pool" id="filePool">
-            <!-- File fragments will be dynamically added here -->
+            <!-- 파일 키워드가 여기에 동적으로 추가됩니다 -->
         </div>
-        <button id="startButton">게임 시작</button>
+        <button id="startButton" class="start-button">게임 시작</button>
         <div class="result" id="result" style="display: none;"></div>
     </div>
     <script src="stage3_minigame_play.js"></script>

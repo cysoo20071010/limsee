@@ -59,16 +59,15 @@ function checkWinCondition() {
     const msCorrect = msOrder.every(file => msZone.includes(file)) && msZone.length === msOrder.length;
 
     if (appleCorrect && msCorrect) {
-        const resultElement = document.getElementById("result");
-        resultElement.style.display = "block";
-        resultElement.textContent = "미니게임 성공!";
+        const result = document.getElementById("result");
+        result.classList.remove("hidden");
+        result.innerHTML = `
+            미니게임 성공! <br>
+            <button id="returnButton">돌아가기</button>
+        `;
 
-        const backButton = document.createElement("button");
-        backButton.textContent = "돌아가기";
-        backButton.addEventListener("click", () => {
+        document.getElementById("returnButton").addEventListener("click", () => {
             window.location.href = "index.html";
         });
-
-        resultElement.appendChild(backButton);
     }
 }
