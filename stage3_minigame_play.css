@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    font-size: 2rem;
+}
+
+p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.game-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dos-container {
+    width: 45%;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #e6f7ff;
+}
+
+.dos-container h2 {
+    margin: 10px 0;
+    color: #007BFF;
+}
+
+.dropzone {
+    min-height: 200px;
+    border: 2px dashed #007BFF;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-pool {
+    border: 2px solid #555;
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.file {
+    width: 80px;
+    height: 30px;
+    background-color: #007BFF;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}

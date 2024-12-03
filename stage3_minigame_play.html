@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple DOS vs MS-DOS: File Recovery Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Apple DOS vs MS-DOS: File Recovery</h1>
+        <p>Drag and drop the file fragments into the correct order to recover the files for each system!</p>
+        <div class="game-area">
+            <div class="dos-container" id="appleDos">
+                <h2>Apple DOS</h2>
+                <div class="dropzone" id="appleZone"></div>
+            </div>
+            <div class="dos-container" id="msDos">
+                <h2>MS-DOS</h2>
+                <div class="dropzone" id="msZone"></div>
+            </div>
+        </div>
+        <div class="file-pool" id="filePool">
+            <!-- File fragments will be dynamically added here -->
+        </div>
+        <button id="startButton">Start Game</button>
+        <div class="result" id="result" style="display: none;"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
