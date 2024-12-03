@@ -1,83 +1,85 @@
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    backgroundColor: '#222',
-    physics: {
-      default: 'arcade',
-      arcade: {
-        debug: false,
-      },
-    },
-    scene: {
-      preload,
-      create,
-      update,
-    },
-  };
-  
-  const game = new Phaser.Game(config);
-  
-  let player;
-  let cursors;
-  let bullets;
-  let enemies;
-  let lastFired = 0;
-  
-  function preload() {
-    // No assets to preload since we are using simple shapes
+const keywords = [
+  "리눅스", "유닉스", "간결하고 모듈화된 설계 철학", "멀티태스킹과 다중 사용자 지원", "이식성과 표준화", 
+  "BSD유닉스", "유닉스 커널", "데니스 리치", "리누스 토르발즈", "오픈소스와 커뮤니티 중심 개발", 
+  "폭넓은 플랫폼 호환성", "안정성과 보안", "데비안 프로젝트", "우분투", "사용자 친화적"
+];
+
+// Duplicate and shuffle keywords
+const cards = [...keywords, ...keywords]
+  .sort(() => 0.5 - Math.random());
+
+const gameBoard = document.getElementById("gameBoard");
+const resultElement = document.getElementById("result");
+let flippedCards = [];
+let matchedCards = 0;
+let startTime = Date.now();
+
+// Create card elements
+cards.forEach((keyword, index) => {
+  const card = document.createElement("div");
+  card.classList.add("card");
+  card.dataset.keyword = keyword;
+  card.dataset.index = index;
+
+  const front = document.createElement("div");
+  front.classList.add("front");
+  front.textContent = "";
+
+  const back = document.createElement("div");
+  back.classList.add("back");
+  back.textContent = keyword;
+
+  card.appendChild(front);
+  card.appendChild(back);
+
+  card.addEventListener("click", () => {
+      if (
+          card.classList.contains("flipped") || 
+          card.classList.contains("matched") ||
+          flippedCards.length === 2
+      ) {
+          return;
+      }
+
+      card.classList.add("flipped");
+      flippedCards.push(card);
+
+      if (flippedCards.length === 2) {
+          setTimeout(checkMatch, 1000);
+      }
+  });
+
+  gameBoard.appendChild(card);
+});
+
+function checkMatch() {
+  const [card1, card2] = flippedCards;
+
+  if (card1.dataset.keyword === card2.dataset.keyword) {
+      card1.classList.add("matched");
+      card2.classList.add("matched");
+      matchedCards += 2;
+
+      if (matchedCards === cards.length) {
+          setTimeout(() => {
+              const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+              showResult(elapsedTime);
+          }, 500);
+      }
+  } else {
+      card1.classList.remove("flipped");
+      card2.classList.remove("flipped");
   }
-  
-  function create() {
-    // Create player as a rectangle
-    player = this.add.rectangle(400, 550, 50, 20, 0x00ff00);
-    this.physics.add.existing(player);
-    player.body.setCollideWorldBounds(true);
-  
-    // Group for bullets
-    bullets = this.physics.add.group();
-  
-    // Create enemies as rectangles
-    enemies = this.physics.add.group();
-    for (let i = 0; i < 10; i++) {
-      let enemy = this.add.rectangle(100 + i * 60, 100, 40, 20, 0xff0000);
-      this.physics.add.existing(enemy);
-      enemies.add(enemy);
-    }
-  
-    // Add keyboard input
-    cursors = this.input.keyboard.createCursorKeys();
-  
-    // Collision detection between bullets and enemies
-    this.physics.add.overlap(bullets, enemies, (bullet, enemy) => {
-      bullet.destroy();
-      enemy.destroy();
-    });
+
+  flippedCards = [];
+}
+
+function showResult(elapsedTime) {
+  gameBoard.style.display = "none";
+  if (elapsedTime <= 100) {
+      resultElement.innerHTML = `<p>축하합니다! 성공하셨습니다! 걸린 시간: ${elapsedTime}초</p><button onclick="location.href='index.html'">돌아가기</button>`;
+  } else {
+      resultElement.innerHTML = `<p>시간 초과! 실패하셨습니다! 걸린 시간: ${elapsedTime}초</p><button onclick="location.reload()">다시하기</button>`;
   }
-  
-  function update(time) {
-    // Player movement
-    if (cursors.left.isDown) {
-      player.body.setVelocityX(-300);
-    } else if (cursors.right.isDown) {
-      player.body.setVelocityX(300);
-    } else {
-      player.body.setVelocityX(0);
-    }
-  
-    // Shooting bullets
-    if (cursors.space.isDown && time > lastFired) {
-      const bullet = this.add.rectangle(player.x, player.y - 20, 5, 10, 0xffff00);
-      this.physics.add.existing(bullet);
-      bullet.body.setVelocityY(-400);
-      bullets.add(bullet);
-  
-      lastFired = time + 300; // Fire rate
-    }
-  
-    // Enemy movement (simple oscillation)
-    enemies.children.iterate((enemy) => {
-      enemy.x += Math.sin(time / 500) * 2; // Oscillating movement
-    });
-  }
-  
+  resultElement.style.display = "block";
+}
