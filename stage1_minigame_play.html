@@ -99,12 +99,19 @@
             }
 
             // AI 힌트 생성 (라이어가 다른 키워드의 힌트를 말하도록 설정)
+            const usedHints = new Set();
             const aiHintList = document.getElementById("aiHintList");
             aiHintList.innerHTML = "";
             players.slice(1).forEach((ai, index) => {
-                const hint = index === roles.indexOf("Liar") - 1 
-                    ? hints[Object.keys(hints).filter(k => k !== gameKeyword)[Math.floor(Math.random() * (Object.keys(hints).length - 1))]][0]
-                    : hints[gameKeyword][Math.floor(Math.random() * 5)];
+                let hint;
+                if (ai === liar) {
+                    const otherKeywords = Object.keys(hints).filter(k => k !== gameKeyword);
+                    const randomKeyword = otherKeywords[Math.floor(Math.random() * otherKeywords.length)];
+                    hint = hints[randomKeyword].find(h => !usedHints.has(h));
+                } else {
+                    hint = hints[gameKeyword].find(h => !usedHints.has(h));
+                }
+                usedHints.add(hint);
                 const li = document.createElement("li");
                 li.innerText = `${ai}: ${hint}`;
                 aiHintList.appendChild(li);
@@ -116,7 +123,7 @@
             // 투표 섹션 설정
             const voteList = document.getElementById("voteList");
             voteList.innerHTML = "";
-            players.forEach(player => {
+            players.slice(1).forEach(player => {
                 const li = document.createElement("li");
                 li.innerHTML = `<input type="radio" name="vote" value="${player}"> ${player}`;
                 voteList.appendChild(li);
