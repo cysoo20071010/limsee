@@ -95,6 +95,13 @@
                 document.getElementById("game").style.display = "none";
                 document.getElementById("result").style.display = "block";
                 document.getElementById("resultText").innerText = "잘못된 힌트를 선택했습니다. 라이어 승리!";
+
+                const gotomainButton = document.getElementById("gotomain");
+                gotomainButton.innerText = "다시하기";
+                gotomainButton.onclick = () => {
+                    location.reload(); // 사이트 새로고침
+                };
+
                 return;
             }
 
@@ -154,7 +161,7 @@
                 resultText.innerText = "라이어를 찾지 못했습니다. 라이어 승리!";
                 gotomainButton.innerText = "다시하기";
                 gotomainButton.onclick = () => {
-                    location.href = "stage1_minigame_play.html"; // 메인 화면으로 이동
+                    location.reload()
                 };
             }
         });
