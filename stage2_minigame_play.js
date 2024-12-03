@@ -5,8 +5,7 @@ const keywords = [
 ];
 
 // Duplicate and shuffle keywords
-const cards = [...keywords, ...keywords]
-  .sort(() => 0.5 - Math.random());
+const cards = [...keywords, ...keywords].sort(() => 0.5 - Math.random());
 
 const gameBoard = document.getElementById("gameBoard");
 const resultElement = document.getElementById("result");
