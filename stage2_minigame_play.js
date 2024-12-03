@@ -5,7 +5,7 @@ const keywords = [
 ];
 
 // Duplicate and shuffle keywords
-const cards = [...keywords, ...keywords].sort(() => 0.5 - Math.random());
+const cards = [...keywords, ...keywords].sort(() => 0.3 - Math.random());
 
 const gameBoard = document.getElementById("gameBoard");
 const resultElement = document.getElementById("result");
@@ -44,7 +44,7 @@ cards.forEach((keyword, index) => {
       flippedCards.push(card);
 
       if (flippedCards.length === 2) {
-          setTimeout(checkMatch, 1000);
+          setTimeout(checkMatch, 500);
       }
   });
 

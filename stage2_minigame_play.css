@@ -29,11 +29,9 @@ h1 {
 .card {
     width: 100px;
     height: 150px;
-    background-color: #007BFF;
-    border-radius: 8px;
+    position: relative;
     perspective: 1000px;
     cursor: pointer;
-    position: relative;
 }
 
 .card .front,
@@ -48,6 +46,7 @@ h1 {
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
+    transition: transform 0.5s;
 }
 
 .card .front {
