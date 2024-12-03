@@ -59,8 +59,16 @@ function checkWinCondition() {
     const msCorrect = msOrder.every(file => msZone.includes(file)) && msZone.length === msOrder.length;
 
     if (appleCorrect && msCorrect) {
-        document.getElementById("result").style.display = "block";
-        document.getElementById("result").textContent = "Congratulations! Files are correctly recovered!";
+        const resultElement = document.getElementById("result");
+        resultElement.style.display = "block";
+        resultElement.textContent = "미니게임 성공!";
+
+        const backButton = document.createElement("button");
+        backButton.textContent = "돌아가기";
+        backButton.addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
+
+        resultElement.appendChild(backButton);
     }
 }
-
