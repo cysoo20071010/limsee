@@ -1,106 +1,117 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom right, #f7f7f7, #d7e8f7);
+    text-align: center;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
 }
 
-#gameContainer {
-    text-align: center;
+.container {
+    max-width: 900px;
+    margin: 20px auto;
     padding: 20px;
-    max-width: 600px;
-    width: 90%;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background: #4CAF50;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s;
+h1 {
+    color: #333;
+    font-size: 2rem;
 }
 
-button:hover {
-    background: #45a049;
+p {
+    color: #555;
+    margin-bottom: 20px;
 }
 
-#filePool {
+.game-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dos-container {
+    width: 45%;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #e6f7ff;
+}
+
+.dos-container h2 {
+    margin: 10px 0;
+    color: #007BFF;
+}
+
+.dropzone {
+    min-height: 200px;
+    border: 2px dashed #007BFF;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
     justify-content: center;
-    margin-top: 20px;
-    padding: 10px;
-    background: #f0f0f0;
-    border-radius: 10px;
+    align-items: center;
+    gap: 10px;
 }
 
-.zone {
-    margin-top: 20px;
+.file-pool {
+    border: 2px solid #555;
+    border-radius: 8px;
     padding: 10px;
     min-height: 100px;
-    border: 2px dashed #aaa;
-    border-radius: 10px;
-    background: #fafafa;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    font-size: 14px;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
 }
 
 .file {
-    padding: 5px 10px;
-    background: #3498db;
+    width: 150px;
+    height: auto;
+    background-color: #007BFF;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
     border-radius: 5px;
-    cursor: grab;
-    transition: transform 0.2s, background 0.3s;
-}
-
-.file:active {
-    cursor: grabbing;
-}
-
-.file:hover {
-    transform: scale(1.1);
-    background: #2980b9;
-}
-
-.hidden {
-    display: none;
-}
-
-#result {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #2e7d32;
-}
-
-#returnButton {
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background: #2196F3;
-    color: white;
     cursor: pointer;
-    transition: background 0.3s;
+    user-select: none;
+    word-wrap: break-word; /* Allow text to wrap */
+    overflow-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
 }
 
-#returnButton:hover {
-    background: #1976D2;
+
+.result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.dropzone {
+    min-height: 200px; /* 영역 높이를 충분히 확보 */
+    border: 2px dashed #007BFF; /* 점선 테두리로 드롭 가능 영역 표시 */
+    border-radius: 8px; /* 모서리를 둥글게 처리 */
+    background-color: #ffffff; /* 드롭 영역의 배경색 */
+    padding: 10px; /* 내부 여백 추가 */
+    display: flex; /* 요소를 가운데 정렬 */
+    flex-wrap: wrap; /* 여러 줄에 걸쳐 키워드를 정렬 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    gap: 10px; /* 키워드 간 간격 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 추가 */
+    transition: background-color 0.3s; /* 드롭 시 시각적 효과를 부드럽게 */
+}
+
+.dropzone:hover {
+    background-color: #e6f7ff; /* 드롭 영역 위로 요소를 가져갈 때 색상 변화 */
 }
