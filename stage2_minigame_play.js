@@ -21,8 +21,8 @@ class MenuScene extends Phaser.Scene {
 
     preload() {
         this.load.image('menuBg', 'menu_background.png');
-        this.load.image('unix', 'assets/unix.png');
-        this.load.image('linux', 'assets/linux.png');
+        this.load.image('unix', 'Unix.png');
+        this.load.image('linux', 'Linux.png');
     }
 
     create() {
@@ -55,9 +55,9 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', 'assets/background.png');
-        this.load.image('player', 'assets/player.png');
-        this.load.image('enemy', 'assets/enemy.png');
+        this.load.image('background', 'stage2_minigame_background.png');
+        this.load.image('player', 'Player.png');
+        this.load.image('enemy', 'Enemy.png');
     }
 
     create() {
