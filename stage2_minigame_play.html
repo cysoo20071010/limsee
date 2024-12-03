@@ -44,6 +44,7 @@
 </head>
 <body>
     <h1>Card Matching Game</h1>
+    <p id="timer">시간: 0초</p>
     <div class="game-board" id="gameBoard"></div>
     <script>
         const keywords = [
@@ -57,8 +58,17 @@
             .sort(() => 0.5 - Math.random());
 
         const gameBoard = document.getElementById("gameBoard");
+        const timerElement = document.getElementById("timer");
         let flippedCards = [];
         let matchedCards = 0;
+        let startTime = Date.now();
+
+        // Timer update function
+        function updateTimer() {
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            timerElement.textContent = `시간: ${elapsedTime}초`;
+        }
+        setInterval(updateTimer, 1000);
 
         // Create card elements
         cards.forEach((keyword, index) => {
@@ -97,7 +107,10 @@
                 matchedCards += 2;
 
                 if (matchedCards === cards.length) {
-                    setTimeout(() => alert("축하합니다! 모든 카드를 맞췄습니다!"), 500);
+                    setTimeout(() => {
+                        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                        alert(`축하합니다! 모든 카드를 맞췄습니다! 걸린 시간: ${elapsedTime}초`);
+                    }, 500);
                 }
             } else {
                 card1.textContent = "";
