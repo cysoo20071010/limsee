@@ -1,19 +1,3 @@
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            debug: false
-        }
-    },
-    scene: [MenuScene, GameScene] // 메인 메뉴와 게임 장면 포함
-};
-
-const game = new Phaser.Game(config);
-
 class MenuScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MenuScene' });
@@ -118,3 +102,20 @@ class GameScene extends Phaser.Scene {
         }
     }
 }
+
+// Phaser 게임 설정 (클래스 정의 이후 작성)
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+    scene: [MenuScene, GameScene]
+};
+
+const game = new Phaser.Game(config);
