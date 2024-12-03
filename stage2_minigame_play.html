@@ -40,7 +40,9 @@
     let cursors;
     let bullets;
     let enemies;
+    let enemyBullets;
     let lastFired = 0;
+    let lastEnemyShot = 0;
     let score = 0;
     let scoreText;
 
@@ -56,12 +58,14 @@
 
       // Group for bullets
       bullets = this.physics.add.group();
+      enemyBullets = this.physics.add.group();
 
       // Create enemies as rectangles
       enemies = this.physics.add.group();
       for (let i = 0; i < 10; i++) {
         let enemy = this.add.rectangle(100 + i * 60, 100, 40, 20, 0xff0000);
         this.physics.add.existing(enemy);
+        enemy.body.setImmovable(true);
         enemies.add(enemy);
       }
 
@@ -74,6 +78,11 @@
         enemy.destroy();
         score += 10;
         scoreText.setText('Score: ' + score);
+      });
+
+      // Collision detection between enemy bullets and player
+      this.physics.add.overlap(enemyBullets, player, () => {
+        this.scene.restart(); // Restart the scene if hit
       });
 
       // Display score
@@ -106,7 +115,20 @@
       // Enemy movement (simple oscillation)
       enemies.children.iterate((enemy) => {
         enemy.x += Math.sin(time / 500) * 2; // Oscillating movement
+
+        // Enemy shooting
+        if (time > lastEnemyShot && Math.random() < 0.02) { // Random chance to shoot
+          const enemyBullet = this.add.rectangle(enemy.x, enemy.y + 20, 5, 10, 0xff0000);
+          this.physics.add.existing(enemyBullet);
+          enemyBullet.body.setVelocityY(200);
+          enemyBullets.add(enemyBullet);
+        }
       });
+
+      // Update last enemy shot time
+      if (time > lastEnemyShot) {
+        lastEnemyShot = time + 500; // Enemies shoot every 500ms
+      }
     }
   </script>
 </body>
