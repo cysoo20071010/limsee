@@ -1,135 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OS Galaga</title>
-  <script src="phaser.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #000;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(6, 100px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin: 20px auto;
+        }
+        .card {
+            width: 100px;
+            height: 150px;
+            background-color: #007BFF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .card.flipped {
+            background-color: #ffffff;
+            color: black;
+            cursor: default;
+        }
+        .card.matched {
+            background-color: #28a745;
+            color: white;
+            cursor: default;
+        }
+    </style>
 </head>
 <body>
-  <script>
-    const config = {
-      type: Phaser.AUTO,
-      width: 800,
-      height: 600,
-      backgroundColor: '#222',
-      physics: {
-        default: 'arcade',
-        arcade: {
-          debug: false,
-        },
-      },
-      scene: {
-        preload,
-        create,
-        update,
-      },
-    };
+    <h1>Card Matching Game</h1>
+    <div class="game-board" id="gameBoard"></div>
+    <script>
+        const keywords = [
+            "리눅스", "유닉스", "간결하고 모듈화된 설계 철학", "멀티태스킹과 다중 사용자 지원", "이식성과 표준화", 
+            "BSD유닉스", "유닉스 커널", "데니스 리치", "리누스 토르발즈", "오픈소스와 커뮤니티 중심 개발", 
+            "폭넓은 플랫폼 호환성", "안정성과 보안", "데비안 프로젝트", "우분투", "사용자 친화적"
+        ];
 
-    const game = new Phaser.Game(config);
+        // Duplicate and shuffle keywords
+        const cards = [...keywords, ...keywords]
+            .sort(() => 0.5 - Math.random());
 
-    let player;
-    let cursors;
-    let bullets;
-    let enemies;
-    let enemyBullets;
-    let lastFired = 0;
-    let lastEnemyShot = 0;
-    let score = 0;
-    let scoreText;
+        const gameBoard = document.getElementById("gameBoard");
+        let flippedCards = [];
+        let matchedCards = 0;
 
-    function preload() {
-      // No assets to preload since we are using simple shapes
-    }
+        // Create card elements
+        cards.forEach((keyword, index) => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.dataset.keyword = keyword;
+            card.dataset.index = index;
 
-    function create() {
-      // Create player as a rectangle
-      player = this.add.rectangle(400, 550, 50, 20, 0x00ff00);
-      this.physics.add.existing(player);
-      player.body.setCollideWorldBounds(true);
+            card.addEventListener("click", () => {
+                if (
+                    card.classList.contains("flipped") || 
+                    card.classList.contains("matched") ||
+                    flippedCards.length === 2
+                ) {
+                    return;
+                }
 
-      // Group for bullets
-      bullets = this.physics.add.group();
-      enemyBullets = this.physics.add.group();
+                card.textContent = keyword;
+                card.classList.add("flipped");
+                flippedCards.push(card);
 
-      // Create enemies as rectangles
-      enemies = this.physics.add.group();
-      for (let i = 0; i < 10; i++) {
-        let enemy = this.add.rectangle(100 + i * 60, 100, 40, 20, 0xff0000);
-        this.physics.add.existing(enemy);
-        enemy.body.setImmovable(true);
-        enemies.add(enemy);
-      }
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 1000);
+                }
+            });
 
-      // Add keyboard input
-      cursors = this.input.keyboard.createCursorKeys();
+            gameBoard.appendChild(card);
+        });
 
-      // Collision detection between bullets and enemies
-      this.physics.add.overlap(bullets, enemies, (bullet, enemy) => {
-        bullet.destroy();
-        enemy.destroy();
-        score += 10;
-        scoreText.setText('Score: ' + score);
-      });
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
 
-      // Collision detection between enemy bullets and player
-      this.physics.add.overlap(enemyBullets, player, () => {
-        this.scene.restart(); // Restart the scene if hit
-      });
+            if (card1.dataset.keyword === card2.dataset.keyword) {
+                card1.classList.add("matched");
+                card2.classList.add("matched");
+                matchedCards += 2;
 
-      // Display score
-      scoreText = this.add.text(10, 10, 'Score: 0', {
-        fontSize: '20px',
-        fill: '#fff',
-      });
-    }
+                if (matchedCards === cards.length) {
+                    setTimeout(() => alert("축하합니다! 모든 카드를 맞췄습니다!"), 500);
+                }
+            } else {
+                card1.textContent = "";
+                card2.textContent = "";
+                card1.classList.remove("flipped");
+                card2.classList.remove("flipped");
+            }
 
-    function update(time) {
-      // Player movement
-      if (cursors.left.isDown) {
-        player.body.setVelocityX(-300);
-      } else if (cursors.right.isDown) {
-        player.body.setVelocityX(300);
-      } else {
-        player.body.setVelocityX(0);
-      }
-
-      // Shooting bullets
-      if (cursors.space.isDown && time > lastFired) {
-        const bullet = this.add.rectangle(player.x, player.y - 20, 5, 10, 0xffff00);
-        this.physics.add.existing(bullet);
-        bullet.body.setVelocityY(-400);
-        bullets.add(bullet);
-
-        lastFired = time + 300; // Fire rate
-      }
-
-      // Enemy movement (simple oscillation)
-      enemies.children.iterate((enemy) => {
-        enemy.x += Math.sin(time / 500) * 2; // Oscillating movement
-
-        // Enemy shooting
-        if (time > lastEnemyShot && Math.random() < 0.02) { // Random chance to shoot
-          const enemyBullet = this.add.rectangle(enemy.x, enemy.y + 20, 5, 10, 0xff0000);
-          this.physics.add.existing(enemyBullet);
-          enemyBullet.body.setVelocityY(200);
-          enemyBullets.add(enemyBullet);
+            flippedCards = [];
         }
-      });
-
-      // Update last enemy shot time
-      if (time > lastEnemyShot) {
-        lastEnemyShot = time + 500; // Enemies shoot every 500ms
-      }
-    }
-  </script>
+    </script>
 </body>
 </html>
