@@ -110,8 +110,8 @@
                     gameOverDisplay.style.display = 'block';
                 }
                 if (score % 2000 === 0) {
-                    bulletSpeed *= 2; // 탄막 속도 증가
-                    bulletInterval /= 1.25; // 탄막 생성 간격 감소
+                    bulletSpeed *= 1.25; // 탄막 속도 증가
+                    bulletInterval /= 1.5; // 탄막 생성 간격 감소
                     clearInterval(bulletSpawner);
                     bulletSpawner = setInterval(() => {
                         if (!isGameOver) spawnBullet();
