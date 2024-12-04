@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android 탄막 피하기</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #222;
+        }
+        .game-over {
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <div class="game-over" id="gameOver" style="display: none;">
+        Game Over!
+        <button onclick="location.reload()">Restart</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 };
+        let bullets = [];
+        let isGameOver = false;
+
+        function drawPlayer() {
+            ctx.fillStyle = 'lime';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function drawBullets() {
+            ctx.fillStyle = 'red';
+            bullets.forEach(bullet => {
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                bullet.y += bullet.speed;
+            });
+        }
+
+        function spawnBullet() {
+            const x = Math.random() * (canvas.width - 20);
+            bullets.push({ x: x, y: 0, width: 20, height: 20, speed: 4 });
+        }
+
+        function detectCollision() {
+            bullets.forEach(bullet => {
+                if (
+                    player.x < bullet.x + bullet.width &&
+                    player.x + player.width > bullet.x &&
+                    player.y < bullet.y + bullet.height &&
+                    player.y + player.height > bullet.y
+                ) {
+                    isGameOver = true;
+                    document.getElementById('gameOver').style.display = 'block';
+                }
+            });
+        }
+
+        function update() {
+            if (isGameOver) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            drawBullets();
+            detectCollision();
+
+            bullets = bullets.filter(bullet => bullet.y < canvas.height);
+        }
+
+        function movePlayer(e) {
+            if (isGameOver) return;
+
+            if (e.key === 'ArrowLeft' && player.x > 0) player.x -= player.speed;
+            if (e.key === 'ArrowRight' && player.x + player.width < canvas.width) player.x += player.speed;
+            if (e.key === 'ArrowUp' && player.y > 0) player.y -= player.speed;
+            if (e.key === 'ArrowDown' && player.y + player.height < canvas.height) player.y += player.speed;
+        }
+
+        document.addEventListener('keydown', movePlayer);
+
+        setInterval(() => {
+            if (!isGameOver) spawnBullet();
+        }, 800);
+
+        setInterval(update, 20);
+    </script>
+</body>
+</html>
