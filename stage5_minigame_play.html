@@ -8,40 +8,68 @@
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e1e1e, #4e4e4e);
+            color: white;
         }
         canvas {
             display: block;
-            margin: 0 auto;
-            background-color: #222;
-        }
-        .game-over {
-            color: white;
-            font-size: 30px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        button {
-            display: block;
             margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 20px;
-            cursor: pointer;
+            background: radial-gradient(circle, #333, #111);
+            border: 3px solid #00ffcc;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
         }
         .score {
             position: absolute;
             top: 10px;
             left: 10px;
-            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 2px solid #00ffcc;
+        }
+        .game-over {
+            display: none;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+        .game-over p {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .game-over button {
+            margin-top: 15px;
+            padding: 10px 20px;
             font-size: 18px;
+            cursor: pointer;
+            background-color: #00ffcc;
+            border: none;
+            border-radius: 5px;
+            color: #111;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+        .game-over button:hover {
+            transform: scale(1.1);
+            background-color: #33ffdd;
         }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas" width="400" height="600"></canvas>
     <div class="score" id="scoreDisplay">Score: 0</div>
-    <div class="game-over" id="gameOver" style="display: none;">
+    <div class="game-over" id="gameOver">
         <p id="gameMessage"></p>
         <button onclick="location.reload()">Restart</button>
     </div>
@@ -52,7 +80,7 @@
         const gameOverDisplay = document.getElementById('gameOver');
         const gameMessage = document.getElementById('gameMessage');
 
-        const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 };
+        const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 }; // 플레이어 크기
         let bullets = [];
         let isGameOver = false;
         let keys = {};
@@ -62,7 +90,7 @@
 
         // Load images
         const playerImg = new Image();
-        playerImg.src = 'Android_player.png'; // Replace with your player image path
+        playerImg.src = 'player.png'; // Replace with your player image path
         const bulletImg = new Image();
         bulletImg.src = 'bullet.png'; // Replace with your bullet image path
 
@@ -91,7 +119,7 @@
                     player.y + player.height > bullet.y
                 ) {
                     isGameOver = true;
-                    gameMessage.textContent = `Game Over! Final Score: ${score}`;
+                    gameMessage.textContent = `게임 오버! 최종 점수: ${score}`;
                     gameOverDisplay.style.display = 'block';
                 }
             });
@@ -110,7 +138,7 @@
                 scoreDisplay.textContent = `Score: ${score}`;
                 if (score >= 10000) {
                     isGameOver = true;
-                    gameMessage.textContent = 'Congratulations! You Win!';
+                    gameMessage.textContent = '클리어!';
                     gameOverDisplay.style.display = 'block';
                 }
                 if (score % 2000 === 0) {
