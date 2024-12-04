@@ -57,18 +57,22 @@
         let isGameOver = false;
         let keys = {};
         let score = 0;
-        let bulletSpeed = 6; // 초기 탄막 속도
-        let bulletInterval = 600; // 초기 탄막 생성 간격
+        let bulletSpeed = 6;
+        let bulletInterval = 800;
+
+        // Load images
+        const playerImg = new Image();
+        playerImg.src = 'Android_player.png'; // Replace with your player image path
+        const bulletImg = new Image();
+        bulletImg.src = 'bullet.png'; // Replace with your bullet image path
 
         function drawPlayer() {
-            ctx.fillStyle = 'lime';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
+            ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
         }
 
         function drawBullets() {
-            ctx.fillStyle = 'red';
             bullets.forEach(bullet => {
-                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                ctx.drawImage(bulletImg, bullet.x, bullet.y, bullet.width, bullet.height);
                 bullet.y += bullet.speed;
             });
         }
@@ -102,7 +106,7 @@
 
         function updateScore() {
             if (!isGameOver) {
-                score += 1; // 0.01초에 1점씩 추가
+                score += 1;
                 scoreDisplay.textContent = `Score: ${score}`;
                 if (score >= 10000) {
                     isGameOver = true;
@@ -110,8 +114,8 @@
                     gameOverDisplay.style.display = 'block';
                 }
                 if (score % 2000 === 0) {
-                    bulletSpeed *= 1.18; // 탄막 속도 증가
-                    bulletInterval /= 1.33; // 탄막 생성 간격 감소
+                    bulletSpeed *= 1.1;
+                    bulletInterval /= 1.1;
                     clearInterval(bulletSpawner);
                     bulletSpawner = setInterval(() => {
                         if (!isGameOver) spawnBullet();
@@ -139,8 +143,8 @@
             if (!isGameOver) spawnBullet();
         }, bulletInterval);
 
-        setInterval(update, 20); // 게임 업데이트
-        setInterval(updateScore, 10); // 점수 업데이트 (0.01초마다 1점)
+        setInterval(update, 20);
+        setInterval(updateScore, 10);
     </script>
 </body>
 </html>
