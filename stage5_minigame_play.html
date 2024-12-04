@@ -29,21 +29,36 @@
             font-size: 20px;
             cursor: pointer;
         }
+        .score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <div class="score" id="scoreDisplay">Score: 0</div>
     <div class="game-over" id="gameOver" style="display: none;">
-        Game Over!
+        <p id="gameMessage"></p>
         <button onclick="location.reload()">Restart</button>
     </div>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const gameOverDisplay = document.getElementById('gameOver');
+        const gameMessage = document.getElementById('gameMessage');
 
         const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 };
         let bullets = [];
         let isGameOver = false;
+        let keys = {};
+        let score = 0;
+        let bulletSpeed = 6; // 초기 탄막 속도
+        let bulletInterval = 800; // 초기 탄막 생성 간격
 
         function drawPlayer() {
             ctx.fillStyle = 'lime';
@@ -60,7 +75,7 @@
 
         function spawnBullet() {
             const x = Math.random() * (canvas.width - 20);
-            bullets.push({ x: x, y: 0, width: 20, height: 20, speed: 4 });
+            bullets.push({ x: x, y: 0, width: 20, height: 20, speed: bulletSpeed });
         }
 
         function detectCollision() {
@@ -72,15 +87,44 @@
                     player.y + player.height > bullet.y
                 ) {
                     isGameOver = true;
-                    document.getElementById('gameOver').style.display = 'block';
+                    gameMessage.textContent = `Game Over! Final Score: ${score}`;
+                    gameOverDisplay.style.display = 'block';
                 }
             });
+        }
+
+        function movePlayer() {
+            if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
+            if (keys['ArrowRight'] && player.x + player.width < canvas.width) player.x += player.speed;
+            if (keys['ArrowUp'] && player.y > 0) player.y -= player.speed;
+            if (keys['ArrowDown'] && player.y + player.height < canvas.height) player.y += player.speed;
+        }
+
+        function updateScore() {
+            if (!isGameOver) {
+                score += 1; // 0.01초에 1점씩 추가
+                scoreDisplay.textContent = `Score: ${score}`;
+                if (score >= 10000) {
+                    isGameOver = true;
+                    gameMessage.textContent = 'Congratulations! You Win!';
+                    gameOverDisplay.style.display = 'block';
+                }
+                if (score % 2000 === 0) {
+                    bulletSpeed *= 1.1; // 탄막 속도 증가
+                    bulletInterval /= 1.1; // 탄막 생성 간격 감소
+                    clearInterval(bulletSpawner);
+                    bulletSpawner = setInterval(() => {
+                        if (!isGameOver) spawnBullet();
+                    }, bulletInterval);
+                }
+            }
         }
 
         function update() {
             if (isGameOver) return;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            movePlayer();
             drawPlayer();
             drawBullets();
             detectCollision();
@@ -88,22 +132,15 @@
             bullets = bullets.filter(bullet => bullet.y < canvas.height);
         }
 
-        function movePlayer(e) {
-            if (isGameOver) return;
+        document.addEventListener('keydown', (e) => keys[e.key] = true);
+        document.addEventListener('keyup', (e) => keys[e.key] = false);
 
-            if (e.key === 'ArrowLeft' && player.x > 0) player.x -= player.speed;
-            if (e.key === 'ArrowRight' && player.x + player.width < canvas.width) player.x += player.speed;
-            if (e.key === 'ArrowUp' && player.y > 0) player.y -= player.speed;
-            if (e.key === 'ArrowDown' && player.y + player.height < canvas.height) player.y += player.speed;
-        }
-
-        document.addEventListener('keydown', movePlayer);
-
-        setInterval(() => {
+        let bulletSpawner = setInterval(() => {
             if (!isGameOver) spawnBullet();
-        }, 800);
+        }, bulletInterval);
 
-        setInterval(update, 20);
+        setInterval(update, 20); // 게임 업데이트
+        setInterval(updateScore, 10); // 점수 업데이트 (0.01초마다 1점)
     </script>
 </body>
 </html>
