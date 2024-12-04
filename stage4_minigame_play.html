@@ -10,42 +10,55 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f8ff;
         }
         .game-container {
             margin: 50px auto;
-            max-width: 800px;
+            max-width: 900px;
             padding: 20px;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
         }
         .timeline {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             position: relative;
         }
         .timeline-line {
             position: absolute;
             height: 100%;
-            width: 5px;
-            background: #aaa;
+            width: 6px;
+            background: linear-gradient(to bottom, #333, #888);
             left: 50%;
             transform: translateX(-50%);
+            border-radius: 3px;
         }
         .timeline-slot {
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 2px dashed #ccc;
+            border: 2px dashed #bbb;
             padding: 15px;
-            min-height: 50px;
-            border-radius: 5px;
+            min-height: 60px;
+            border-radius: 10px;
             width: 45%;
             background-color: #f9f9f9;
             position: relative;
+            transition: background-color 0.3s;
+        }
+        .timeline-slot:hover {
+            background-color: #e6f7ff;
         }
         .timeline-slot.left {
             align-self: flex-start;
@@ -54,28 +67,60 @@
             align-self: flex-end;
         }
         .event {
-            padding: 10px;
-            background: #ddd;
-            border-radius: 5px;
+            padding: 12px;
+            background: #87ceeb;
+            color: white;
+            border-radius: 8px;
             cursor: grab;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .event:active {
+            transform: scale(1.1);
         }
         .event-container {
             margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
         }
         .completed {
             background: #d4edda;
             color: #155724;
             font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
         }
         button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            margin-top: 30px;
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -95,7 +140,7 @@
             <div class="timeline-slot right" data-order="8"></div>
         </div>
         <div class="event-container">
-            <div class="event" draggable="true" data-order="1">MAC OS 시작 (IBM PC)</div>
+             <div class="event" draggable="true" data-order="1">MAC OS 시작 (IBM PC)</div>
             <div class="event" draggable="true" data-order="2">Windows 1.0 출시</div>
             <div class="event" draggable="true" data-order="3">NeXTSTEP 기반 출시</div>
             <div class="event" draggable="true" data-order="4">Windows 95 발표</div>
@@ -106,6 +151,7 @@
         </div>
         <button id="submit">타임라인 확인하기</button>
         <p id="result"></p>
+        <a id="back-button" href="index.html" class="back-button" style="display: none;">Back to Home</a>
     </div>
 
     <script>
@@ -113,6 +159,7 @@
         const slots = document.querySelectorAll('.timeline-slot');
         const submitButton = document.getElementById('submit');
         const result = document.getElementById('result');
+        const backButton = document.getElementById('back-button');
 
         let draggedItem = null;
 
@@ -158,6 +205,12 @@
 
             result.textContent = isCorrect ? '정답입니다! 성공하셨습니다!' : '틀렸습니다. 다시 시도해보세요!';
             result.className = isCorrect ? '성공' : '';
+
+            if (isCorrect) {
+                backButton.style.display = 'inline-block';
+            } else {
+                backButton.style.display = 'none';
+            }
         });
     </script>
 </body>
