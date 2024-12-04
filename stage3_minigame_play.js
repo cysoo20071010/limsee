@@ -9,7 +9,7 @@ function startGame() {
     filePool.innerHTML = "";
 
     const allFiles = [...appleOrder, ...msOrder]
-        .sort(() => Math.random() - 0.5);
+        .sort(() => Math.random() - 0.5); // 키워드 섞기
 
     allFiles.forEach(file => {
         const fileElement = document.createElement("div");
@@ -17,6 +17,7 @@ function startGame() {
         fileElement.textContent = file;
         fileElement.draggable = true;
 
+        // 드래그 시작 이벤트
         fileElement.addEventListener("dragstart", () => {
             draggedFile = fileElement;
         });
@@ -32,16 +33,21 @@ function setDropZones() {
     const msZone = document.getElementById("msZone");
 
     [appleZone, msZone].forEach(zone => {
-        zone.innerHTML = "";
+        zone.innerHTML = ""; // 드롭 영역 초기화
 
+        // 드롭 영역에 드래그 오버 허용
         zone.addEventListener("dragover", (e) => {
             e.preventDefault();
         });
 
+        // 드롭 이벤트 처리
         zone.addEventListener("drop", (e) => {
             e.preventDefault();
             if (draggedFile) {
-                zone.appendChild(draggedFile);
+                // 동일한 파일 중복 방지
+                if (!Array.from(zone.children).includes(draggedFile)) {
+                    zone.appendChild(draggedFile);
+                }
                 draggedFile = null;
                 checkWinCondition();
             }
@@ -51,9 +57,9 @@ function setDropZones() {
 
 function checkWinCondition() {
     const appleZone = Array.from(document.getElementById("appleZone").children)
-        .map(el => el.textContent);
+        .map(el => el.textContent.trim());
     const msZone = Array.from(document.getElementById("msZone").children)
-        .map(el => el.textContent);
+        .map(el => el.textContent.trim());
 
     const appleCorrect = appleOrder.every(file => appleZone.includes(file)) && appleZone.length === appleOrder.length;
     const msCorrect = msOrder.every(file => msZone.includes(file)) && msZone.length === msOrder.length;
