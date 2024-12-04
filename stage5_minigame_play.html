@@ -148,8 +148,8 @@
                     gameOverDisplay.style.display = 'block';
                 }
                 if (score % 2000 === 0) {
-                    bulletSpeed *= 1.1;
-                    bulletInterval /= 1.1;
+                    bulletSpeed *= 1.2;
+                    bulletInterval /= 1.3;
                     clearInterval(bulletSpawner);
                     bulletSpawner = setInterval(() => {
                         if (!isGameOver) spawnBullet();
