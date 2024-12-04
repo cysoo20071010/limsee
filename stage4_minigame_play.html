@@ -1,90 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OS 점프</title>
-  <style>
-    body { margin: 0; overflow: hidden; background: #f4f4f4; }
-    canvas { display: block; background: linear-gradient(to bottom, #87CEFA, #f4f4f4); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Timeline Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .game-container {
+            margin: 50px auto;
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .event {
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: grab;
+        }
+        .timeline-slot {
+            border: 2px dashed #ccc;
+            padding: 15px;
+            min-height: 50px;
+            border-radius: 5px;
+        }
+        .completed {
+            background: #d4edda;
+            color: #155724;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="gameCanvas"></canvas>
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    <div class="game-container">
+        <h1>OS Timeline Game</h1>
+        <p>Choose an operating system to play!</p>
+        <button id="start-mac">Play MAC OS Timeline</button>
+        <button id="start-windows">Play Windows Timeline</button>
+    </div>
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    <div class="game-container" id="mac-game" style="display: none;">
+        <h1>MAC OS Timeline Game</h1>
+        <p>Drag the events into the correct chronological order!</p>
+        <div class="timeline" id="timeline">
+            <div class="timeline-slot" data-order="1">1981: IBM PC와 함께 시작된 MAC OS</div>
+            <div class="timeline-slot" data-order="2">1989: NeXTSTEP 기반 출시</div>
+            <div class="timeline-slot" data-order="3">2001: Mac OS X 발표</div>
+            <div class="timeline-slot" data-order="4">2020: macOS Big Sur 발표</div>
+        </div>
+        <div class="event" draggable="true" data-order="2">1989: NeXTSTEP 기반 출시</div>
+        <div class="event" draggable="true" data-order="3">2001: Mac OS X 발표</div>
+        <div class="event" draggable="true" data-order="1">1981: IBM PC와 함께 시작된 MAC OS</div>
+        <div class="event" draggable="true" data-order="4">2020: macOS Big Sur 발표</div>
+        <button id="submit-mac">Check Order</button>
+        <p id="result-mac"></p>
+    </div>
 
-    const player = { x: 50, y: canvas.height - 100, width: 50, height: 50, dy: 0, gravity: 0.5, jump: -10 };
-    const obstacles = [];
-    let score = 0;
+    <div class="game-container" id="windows-game" style="display: none;">
+        <h1>Windows Timeline Game</h1>
+        <p>Drag the events into the correct chronological order!</p>
+        <div class="timeline" id="timeline-windows">
+            <div class="timeline-slot" data-order="1">1985: Windows 1.0 출시</div>
+            <div class="timeline-slot" data-order="2">1995: Windows 95 발표</div>
+            <div class="timeline-slot" data-order="3">2001: Windows XP 출시</div>
+            <div class="timeline-slot" data-order="4">2015: Windows 10 출시</div>
+        </div>
+        <div class="event" draggable="true" data-order="1">1985: Windows 1.0 출시</div>
+        <div class="event" draggable="true" data-order="2">1995: Windows 95 발표</div>
+        <div class="event" draggable="true" data-order="3">2001: Windows XP 출시</div>
+        <div class="event" draggable="true" data-order="4">2015: Windows 10 출시</div>
+        <button id="submit-windows">Check Order</button>
+        <p id="result-windows"></p>
+    </div>
 
-    function drawPlayer() {
-      ctx.fillStyle = 'blue';
-      ctx.fillRect(player.x, player.y, player.width, player.height);
-    }
+    <script>
+        function setupGame(timelineId, submitButtonId, resultId) {
+            const events = document.querySelectorAll(`#${timelineId} ~ .event`);
+            const slots = document.querySelectorAll(`#${timelineId} .timeline-slot`);
+            const submitButton = document.getElementById(submitButtonId);
+            const result = document.getElementById(resultId);
 
-    function drawObstacles() {
-      ctx.fillStyle = 'red';
-      obstacles.forEach(obstacle => {
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-      });
-    }
+            let draggedItem = null;
 
-    function updatePlayer() {
-      player.dy += player.gravity;
-      player.y += player.dy;
-      if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
-    }
+            events.forEach(event => {
+                event.addEventListener('dragstart', () => {
+                    draggedItem = event;
+                    setTimeout(() => event.style.display = 'none', 0);
+                });
 
-    function updateObstacles() {
-      if (Math.random() < 0.02) {
-        obstacles.push({ x: canvas.width, y: canvas.height - 50, width: 50, height: 50 });
-      }
-      obstacles.forEach(obstacle => obstacle.x -= 5);
-      obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
-    }
+                event.addEventListener('dragend', () => {
+                    setTimeout(() => {
+                        draggedItem.style.display = 'block';
+                        draggedItem = null;
+                    }, 0);
+                });
+            });
 
-    function detectCollision() {
-      obstacles.forEach(obstacle => {
-        if (player.x < obstacle.x + obstacle.width &&
-            player.x + player.width > obstacle.x &&
-            player.y < obstacle.y + obstacle.height &&
-            player.y + player.height > obstacle.y) {
-          alert(`Game Over! Score: ${score}`);
-          document.location.reload();
+            slots.forEach(slot => {
+                slot.addEventListener('dragover', e => e.preventDefault());
+
+                slot.addEventListener('drop', () => {
+                    if (!slot.hasChildNodes()) {
+                        slot.appendChild(draggedItem);
+                    }
+                });
+            });
+
+            submitButton.addEventListener('click', () => {
+                const timelineSlots = document.querySelectorAll(`#${timelineId} .timeline-slot`);
+                let isCorrect = true;
+
+                timelineSlots.forEach(slot => {
+                    const event = slot.querySelector('.event');
+                    if (event) {
+                        const eventOrder = event.getAttribute('data-order');
+                        const slotOrder = slot.getAttribute('data-order');
+                        if (eventOrder !== slotOrder) {
+                            isCorrect = false;
+                        }
+                    } else {
+                        isCorrect = false;
+                    }
+                });
+
+                result.textContent = isCorrect ? 'Correct! Well done!' : 'Incorrect. Try again!';
+                result.className = isCorrect ? 'completed' : '';
+            });
         }
-      });
-    }
 
-    function updateScore() {
-      score++;
-      ctx.fillStyle = 'black';
-      ctx.font = '20px Arial';
-      ctx.fillText(`Score: ${score}`, 10, 20);
-    }
+        document.getElementById('start-mac').addEventListener('click', () => {
+            document.getElementById('mac-game').style.display = 'block';
+            document.getElementById('windows-game').style.display = 'none';
+        });
 
-    function gameLoop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPlayer();
-      drawObstacles();
-      updatePlayer();
-      updateObstacles();
-      detectCollision();
-      updateScore();
-      requestAnimationFrame(gameLoop);
-    }
+        document.getElementById('start-windows').addEventListener('click', () => {
+            document.getElementById('windows-game').style.display = 'block';
+            document.getElementById('mac-game').style.display = 'none';
+        });
 
-    window.addEventListener('keydown', e => {
-      if (e.code === 'Space' && player.y + player.height === canvas.height) {
-        player.dy = player.jump;
-      }
-    });
-
-    gameLoop();
-  </script>
+        setupGame('timeline', 'submit-mac', 'result-mac');
+        setupGame('timeline-windows', 'submit-windows', 'result-windows');
+    </script>
 </body>
 </html>
