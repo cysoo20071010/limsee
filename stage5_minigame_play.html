@@ -58,7 +58,7 @@
         let keys = {};
         let score = 0;
         let bulletSpeed = 6; // 초기 탄막 속도
-        let bulletInterval = 800; // 초기 탄막 생성 간격
+        let bulletInterval = 600; // 초기 탄막 생성 간격
 
         function drawPlayer() {
             ctx.fillStyle = 'lime';
@@ -111,7 +111,7 @@
                 }
                 if (score % 2000 === 0) {
                     bulletSpeed *= 1.1; // 탄막 속도 증가
-                    bulletInterval /= 1.1; // 탄막 생성 간격 감소
+                    bulletInterval /= 1.25; // 탄막 생성 간격 감소
                     clearInterval(bulletSpawner);
                     bulletSpawner = setInterval(() => {
                         if (!isGameOver) spawnBullet();
