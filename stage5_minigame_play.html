@@ -11,25 +11,32 @@
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1e1e1e, #4e4e4e);
             color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
         }
-        canvas {
-            display: block;
-            margin: 20px auto;
-            background: radial-gradient(circle, #333, #111);
-            border: 3px solid #00ffcc;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
+        h1 {
+            margin: 20px 0 10px 0;
+            font-size: 36px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            color: #00ffcc;
         }
         .score {
-            position: absolute;
-            top: 10px;
-            left: 10px;
             font-size: 24px;
             font-weight: bold;
             background: rgba(0, 0, 0, 0.5);
             padding: 10px 15px;
             border-radius: 5px;
             border: 2px solid #00ffcc;
+            margin-bottom: 10px;
+        }
+        canvas {
+            background: radial-gradient(circle, #333, #111);
+            border: 3px solid #00ffcc;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
         }
         .game-over {
             display: none;
@@ -39,14 +46,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
+            padding: 30px 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            z-index: 10;
         }
         .game-over p {
             font-size: 32px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
+            color: #00ffcc;
         }
         .game-over button {
             margin-top: 15px;
@@ -67,11 +76,12 @@
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <h1>Android 탄막 피하기</h1>
     <div class="score" id="scoreDisplay">Score: 0</div>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
     <div class="game-over" id="gameOver">
         <p id="gameMessage"></p>
-        <button onclick="location.reload()">Restart</button>
+        <button id="gameButton"></button>
     </div>
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -79,6 +89,7 @@
         const scoreDisplay = document.getElementById('scoreDisplay');
         const gameOverDisplay = document.getElementById('gameOver');
         const gameMessage = document.getElementById('gameMessage');
+        const gameButton = document.getElementById('gameButton');
 
         const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 };
         let bullets = [];
@@ -124,9 +135,7 @@
                     player.y < bullet.y + bullet.height &&
                     player.y + player.height > bullet.y
                 ) {
-                    isGameOver = true;
-                    gameMessage.textContent = `게임 오버! 최종 점수: ${score}`;
-                    gameOverDisplay.style.display = 'block';
+                    endGame(false);
                 }
             });
         }
@@ -143,9 +152,7 @@
                 score += 1;
                 scoreDisplay.textContent = `Score: ${score}`;
                 if (score >= 10000) {
-                    isGameOver = true;
-                    gameMessage.textContent = '클리어!';
-                    gameOverDisplay.style.display = 'block';
+                    endGame(true);
                 }
                 if (score % 2000 === 0) {
                     bulletSpeed *= 1.17;
@@ -168,6 +175,20 @@
             detectCollision();
 
             bullets = bullets.filter(bullet => bullet.y < canvas.height);
+        }
+
+        function endGame(isWin) {
+            isGameOver = true;
+            gameOverDisplay.style.display = 'block';
+            if (isWin) {
+                gameMessage.textContent = '🎉 클리어! 🎉';
+                gameButton.textContent = '돌아가기';
+                gameButton.onclick = () => location.href = 'index.html';
+            } else {
+                gameMessage.textContent = `💥 게임 오버 💥\n최종 점수: ${score}`;
+                gameButton.textContent = '다시하기';
+                gameButton.onclick = () => location.reload();
+            }
         }
 
         document.addEventListener('keydown', (e) => keys[e.key] = true);
