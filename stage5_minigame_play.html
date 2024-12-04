@@ -80,7 +80,7 @@
         const gameOverDisplay = document.getElementById('gameOver');
         const gameMessage = document.getElementById('gameMessage');
 
-        const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 }; // 플레이어 크기
+        const player = { x: 180, y: 500, width: 40, height: 40, speed: 5 };
         let bullets = [];
         let isGameOver = false;
         let keys = {};
@@ -90,19 +90,25 @@
 
         // Load images
         const playerImg = new Image();
-        playerImg.src = 'player.png'; // Replace with your player image path
+        playerImg.src = 'Android_player.png';
         const bulletImg = new Image();
-        bulletImg.src = 'bullet.png'; // Replace with your bullet image path
+        bulletImg.src = 'bullet.png';
+
+        let imagesLoaded = 0;
 
         function drawPlayer() {
-            ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+            if (imagesLoaded >= 2) {
+                ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+            }
         }
 
         function drawBullets() {
-            bullets.forEach(bullet => {
-                ctx.drawImage(bulletImg, bullet.x, bullet.y, bullet.width, bullet.height);
-                bullet.y += bullet.speed;
-            });
+            if (imagesLoaded >= 2) {
+                bullets.forEach(bullet => {
+                    ctx.drawImage(bulletImg, bullet.x, bullet.y, bullet.width, bullet.height);
+                    bullet.y += bullet.speed;
+                });
+            }
         }
 
         function spawnBullet() {
@@ -166,6 +172,14 @@
 
         document.addEventListener('keydown', (e) => keys[e.key] = true);
         document.addEventListener('keyup', (e) => keys[e.key] = false);
+
+        playerImg.onload = () => {
+            imagesLoaded++;
+        };
+
+        bulletImg.onload = () => {
+            imagesLoaded++;
+        };
 
         let bulletSpawner = setInterval(() => {
             if (!isGameOver) spawnBullet();
